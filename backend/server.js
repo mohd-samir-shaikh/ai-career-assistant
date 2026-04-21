@@ -1,32 +1,57 @@
 require("dotenv").config();
+
 const express = require("express");
-const dotenv = require("dotenv");
 const cors = require("cors");
-const authRoutes = require("./routes/authRoutes");
-const aiRoutes = require("./routes/aiRoutes");
-dotenv.config();
 
 const connectDB = require("./config/db");
-connectDB();
+const authRoutes = require("./routes/authRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 
 const app = express();
 
-app.use(cors());
+// ✅ CONNECT DATABASE
+connectDB();
+
+// ✅ CORS CONFIG (IMPORTANT)
+const allowedOrigins = [
+  "http://localhost:5173", // local dev
+  "https://ai-career-assistant-dusky.vercel.app" // your live frontend
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like Postman)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
+// ✅ MIDDLEWARE
 app.use(express.json());
 
+// ✅ ROUTES
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/uploads", express.static("uploads"));
 
+// ✅ TEST ROUTE
 app.get("/", (req, res) => {
   res.send("AI Career Assistant API Running...");
 });
 
+// ✅ DEBUG ENV (optional but useful)
+console.log("MONGO:", process.env.MONGO_URI ? "OK" : "MISSING");
+console.log("JWT:", process.env.JWT_SECRET ? "OK" : "MISSING");
+
+// ✅ START SERVER
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-console.log("MONGO:", process.env.MONGO_URI ? "OK" : "MISSING");
-console.log("JWT:", process.env.JWT_SECRET ? "OK" : "MISSING");
