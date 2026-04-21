@@ -13,15 +13,12 @@ const app = express();
 // ✅ CONNECT DATABASE
 connectDB();
 
-// ✅ CORS CONFIG (SAFE FOR LOCAL + LIVE)
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://ai-career-assistant-dusky.vercel.app"
-];
+// ✅ CORS (FIXED - WORKS FOR LOCAL + LIVE)
+app.use(cors({
+  origin: "*",
+}));
 
-app.options(/.*/, cors());
-
-// ✅ HANDLE PREFLIGHT REQUESTS (VERY IMPORTANT)
+// ✅ HANDLE PREFLIGHT REQUESTS
 app.options(/.*/, cors());
 
 // ✅ MIDDLEWARE
