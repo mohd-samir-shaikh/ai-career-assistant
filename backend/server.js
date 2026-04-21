@@ -27,3 +27,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+console.log("MONGO:", process.env.MONGO_URI ? "OK" : "MISSING");
+console.log("JWT:", process.env.JWT_SECRET ? "OK" : "MISSING");

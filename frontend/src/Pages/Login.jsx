@@ -13,32 +13,30 @@ function Login() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email, password })
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
 
-      // ❌ ERROR HANDLING
       if (!res.ok) {
         toast.error(data.message || "Login failed ❌");
         return;
       }
 
-      // ✅ SAVE DATA
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // ✅ SUCCESS
       toast.success("Welcome back 🚀");
 
-      // 👉 redirect
       navigate("/");
-
     } catch (err) {
       console.error(err);
       toast.error("Server error ❌");
