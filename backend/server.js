@@ -31,6 +31,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/uploads", express.static("uploads"));
 
+
+app.get("/check", (req, res) => {
+  res.send("CHECK OK");
+});
+
 // ✅ TEST ROUTE
 app.get("/", (req, res) => {
   res.send("AI Career Assistant API Running...");
