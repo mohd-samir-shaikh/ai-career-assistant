@@ -13,15 +13,28 @@ const app = express();
 // ✅ CONNECT DATABASE
 connectDB();
 
-// ✅ CORS CONFIG (IMPORTANT)
+// ✅ CORS CONFIG (SAFE FOR LOCAL + LIVE)
 const allowedOrigins = [
-  "http://localhost:5173", // local dev
-  "https://ai-career-assistant-dusky.vercel.app" // your live frontend
+  "http://localhost:5173",
+  "https://ai-career-assistant-dusky.vercel.app"
 ];
 
 app.use(cors({
-  origin: "*",
+  origin: function (origin, callback) {
+    // allow requests without origin (Postman, mobile apps)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("CORS blocked ❌"));
+  },
+  credentials: true,
 }));
+
+// ✅ HANDLE PREFLIGHT REQUESTS (VERY IMPORTANT)
+app.options(/.*/, cors());
 
 // ✅ MIDDLEWARE
 app.use(express.json());
@@ -31,17 +44,17 @@ app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/uploads", express.static("uploads"));
 
-
+// ✅ TEST ROUTE
 app.get("/check", (req, res) => {
   res.send("CHECK OK");
 });
 
-// ✅ TEST ROUTE
+// ✅ ROOT ROUTE
 app.get("/", (req, res) => {
   res.send("AI Career Assistant API Running...");
 });
 
-// ✅ DEBUG ENV (optional but useful)
+// ✅ DEBUG ENV
 console.log("MONGO:", process.env.MONGO_URI ? "OK" : "MISSING");
 console.log("JWT:", process.env.JWT_SECRET ? "OK" : "MISSING");
 
