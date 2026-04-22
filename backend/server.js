@@ -1,3 +1,8 @@
+const fs = require("fs");
+
+if (!fs.existsSync("uploads")) {
+  fs.mkdirSync("uploads");
+}
 console.log("SERVER FILE IS RUNNING 🚀");
 require("dotenv").config();
 

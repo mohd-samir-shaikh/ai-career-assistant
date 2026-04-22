@@ -1,3 +1,4 @@
+console.log("FILE:", req.file);
 const extractPdfText = require("../utils/extractPdfText");
 const { analyzeText, chatWithAI } = require("../services/aiService");
 const Result = require("../models/Result");
@@ -51,23 +52,38 @@ const calculateJobMatches = (skills = []) => {
 // ================= UPLOAD & ANALYZE =================
 const uploadResume = async (req, res) => {
   try {
+    console.log("FILE RECEIVED:", req.file);
+
     if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
+      return res.status(400).json({
+        message: "No file uploaded ❌",
+      });
     }
 
-    // 🔥 STEP 1: Extract text
-    const text = await extractPdfText(req.file.path);
+    // ✅ SAFE FILE PATH
+    const filePath = req.file.path || `uploads/${req.file.filename}`;
 
-    // 🔥 STEP 2: AI Analysis
+    let text = "";
+
+    // ✅ SAFE PDF EXTRACTION (THIS FIXES YOUR CRASH)
+    try {
+      text = await extractPdfText(filePath);
+    } catch (err) {
+      console.error("PDF ERROR:", err);
+      return res.status(500).json({
+        message: "Error reading PDF ❌",
+      });
+    }
+
+    // ✅ AI ANALYSIS
     const aiResult = await analyzeText(text);
 
-    // ================= SCORE CALCULATION =================
+    // ================= SCORE =================
     const totalSkills = aiResult.skills.length;
     const missing = aiResult.missingSkills.length;
     const suggestions = aiResult.suggestions.length;
 
     let score = 100;
-
     score -= missing * 5;
     score -= suggestions * 2;
     score += totalSkills * 2;
@@ -78,27 +94,27 @@ const uploadResume = async (req, res) => {
     // ================= JOB MATCH =================
     const jobMatches = calculateJobMatches(aiResult.skills);
 
-    // 🔥 STEP 3: Save to DB
+    // ✅ SAVE
     const savedResult = await Result.create({
       user: req.user.id,
-      score: score,
+      score,
       skills: aiResult.skills || [],
       missingSkills: aiResult.missingSkills || [],
       suggestions: aiResult.suggestions || [],
       careerRoles: aiResult.careerRoles || [],
-      jobMatches, // ✅ IMPORTANT
+      jobMatches,
       resumeFile: req.file.filename,
     });
 
     res.json({
-      message: "Resume analyzed & saved",
+      message: "Resume analyzed & saved ✅",
       result: savedResult,
     });
 
   } catch (error) {
     console.error("UPLOAD ERROR:", error);
     res.status(500).json({
-      message: "Upload failed",
+      message: "Upload failed ❌",
       error: error.message,
     });
   }
