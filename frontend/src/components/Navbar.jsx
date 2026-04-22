@@ -1,18 +1,18 @@
 import { useNavigate, NavLink } from "react-router-dom";
+import { useState } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   let user = null;
 
   try {
     const storedUser = localStorage.getItem("user");
-
     if (storedUser && storedUser !== "undefined") {
       user = JSON.parse(storedUser);
     }
-  } catch (error) {
-    console.error("Invalid user data:", error);
+  } catch {
     user = null;
   }
 
@@ -24,51 +24,68 @@ function Navbar() {
 
   return (
     <div style={styles.navbar}>
-      {/* LOGO */}
-      <h2 style={styles.logo} onClick={() => navigate("/")}>
-        🚀 CareerAI
-      </h2>
+      {/* LEFT */}
+      <div style={styles.left}>
+        <h2 style={styles.logo} onClick={() => navigate("/")}>
+          🚀 CareerAI
+        </h2>
+      </div>
 
-      <div style={styles.right}>
+      {/* HAMBURGER BUTTON */}
+      <button
+        style={styles.menuBtn}
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        ☰
+      </button>
+
+      {/* RIGHT MENU */}
+      <div
+        style={{
+          ...styles.right,
+          ...(menuOpen ? styles.mobileMenu : {}),
+        }}
+      >
         <span style={styles.username}>
           👤 {user?.name || "User"}
         </span>
 
-        <div style={styles.buttonGroup}>
-          <NavLink
-            to="/"
-            style={({ isActive }) => ({
-              ...styles.navButton,
-              background: isActive ? "#6366f1" : "#3b82f6",
-            })}
-          >
-            Home
-          </NavLink>
+        <NavLink
+          to="/"
+          style={({ isActive }) => ({
+            ...styles.navButton,
+            background: isActive ? "#6366f1" : "#3b82f6",
+          })}
+          onClick={() => setMenuOpen(false)}
+        >
+          Home
+        </NavLink>
 
-          <NavLink
-            to="/profile"
-            style={({ isActive }) => ({
-              ...styles.navButton,
-              background: isActive ? "#6366f1" : "#3b82f6",
-            })}
-          >
-            Profile
-          </NavLink>
+        <NavLink
+          to="/profile"
+          style={({ isActive }) => ({
+            ...styles.navButton,
+            background: isActive ? "#6366f1" : "#3b82f6",
+          })}
+          onClick={() => setMenuOpen(false)}
+        >
+          Profile
+        </NavLink>
 
-          <NavLink
-            to="/history"
-            style={({ isActive }) => ({
-              ...styles.navButton,
-              background: isActive ? "#6366f1" : "#3b82f6",
-            })}
-          >
-            History
-          </NavLink>
+        <NavLink
+          to="/history"
+          style={({ isActive }) => ({
+            ...styles.navButton,
+            background: isActive ? "#6366f1" : "#3b82f6",
+          })}
+          onClick={() => setMenuOpen(false)}
+        >
+          History
+        </NavLink>
 
-          <button onClick={handleLogout} style={styles.logoutButton}>
-            Logout
-          </button>
-        </div>
+        <button onClick={handleLogout} style={styles.logoutButton}>
+          Logout
+        </button>
       </div>
     </div>
   );
@@ -84,8 +101,12 @@ const styles = {
     backdropFilter: "blur(10px)",
     borderRadius: "12px",
     marginBottom: "20px",
-    flexWrap: "wrap", // 🔥 IMPORTANT FOR MOBILE
-    gap: "10px",
+    position: "relative",
+  },
+
+  left: {
+    display: "flex",
+    alignItems: "center",
   },
 
   logo: {
@@ -94,11 +115,19 @@ const styles = {
     fontSize: "18px",
   },
 
+  menuBtn: {
+    fontSize: "22px",
+    background: "none",
+    border: "none",
+    color: "white",
+    cursor: "pointer",
+    display: "none", // hidden on desktop
+  },
+
   right: {
     display: "flex",
     alignItems: "center",
     gap: "10px",
-    flexWrap: "wrap",
   },
 
   username: {
@@ -106,18 +135,10 @@ const styles = {
     fontSize: "14px",
   },
 
-  buttonGroup: {
-    display: "flex",
-    gap: "8px",
-    flexWrap: "wrap", // 🔥 FIX WRAPPING ISSUE
-  },
-
   navButton: {
     padding: "6px 10px",
-    border: "none",
     borderRadius: "8px",
     color: "white",
-    cursor: "pointer",
     textDecoration: "none",
     fontSize: "13px",
     whiteSpace: "nowrap",
@@ -131,6 +152,20 @@ const styles = {
     color: "white",
     cursor: "pointer",
     fontSize: "13px",
+  },
+
+  // 🔥 MOBILE DROPDOWN
+  mobileMenu: {
+    position: "absolute",
+    top: "60px",
+    right: "10px",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    background: "#1e293b",
+    padding: "15px",
+    borderRadius: "12px",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+    zIndex: 999,
   },
 };
 

@@ -142,12 +142,12 @@ const styles = {
   chatContainer: {
   position: "fixed",
   bottom: "90px",
-  right: "20px",
+  right: "10px",
 
-  width: "90vw",          // ✅ responsive width
-  maxWidth: "360px",      // ✅ limit on desktop
+  width: "calc(100% - 20px)",  // 🔥 FULL MOBILE FIX
+  maxWidth: "360px",
 
-  height: "70vh",         // ✅ responsive height
+  height: "70vh",
   maxHeight: "500px",
 
   background: "#1e293b",
@@ -202,27 +202,31 @@ const styles = {
   },
 
   inputArea: {
-    display: "flex",
-    padding: "10px",
-    gap: "6px",
-  },
+  display: "flex",
+  padding: "10px",
+  gap: "8px",
+  alignItems: "center",
+},
 
   input: {
-    flex: 1,
-    padding: "10px",
-    borderRadius: "10px",
-    border: "none",
-    outline: "none",
-  },
+  flex: 1,
+  padding: "10px 12px",
+  borderRadius: "12px",
+  border: "none",
+  outline: "none",
+  fontSize: "14px",
+  minWidth: 0, // 🔥 IMPORTANT FIX
+},
 
   sendBtn: {
-    background: "#3b82f6",
-    color: "white",
-    border: "none",
-    padding: "8px 12px",
-    borderRadius: "10px",
-    cursor: "pointer",
-  },
+  background: "#3b82f6",
+  color: "white",
+  border: "none",
+  padding: "10px 14px",
+  borderRadius: "12px",
+  cursor: "pointer",
+  whiteSpace: "nowrap",
+},
 };
 
 export default ChatBox;
