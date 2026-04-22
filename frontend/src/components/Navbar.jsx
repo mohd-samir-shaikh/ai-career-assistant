@@ -3,7 +3,6 @@ import { useNavigate, NavLink } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate();
 
-  // ✅ SAFE USER PARSE (KEEP SAME)
   let user = null;
 
   try {
@@ -25,7 +24,7 @@ function Navbar() {
 
   return (
     <div style={styles.navbar}>
-      {/* LOGO → also clickable HOME */}
+      {/* LOGO */}
       <h2 style={styles.logo} onClick={() => navigate("/")}>
         🚀 CareerAI
       </h2>
@@ -35,40 +34,41 @@ function Navbar() {
           👤 {user?.name || "User"}
         </span>
 
-        {/* ✅ HOME BUTTON */}
-        <NavLink
-          to="/"
-          style={({ isActive }) => ({
-            ...styles.navButton,
-            background: isActive ? "#6366f1" : "#3b82f6",
-          })}
-        >
-          Home
-        </NavLink>
+        <div style={styles.buttonGroup}>
+          <NavLink
+            to="/"
+            style={({ isActive }) => ({
+              ...styles.navButton,
+              background: isActive ? "#6366f1" : "#3b82f6",
+            })}
+          >
+            Home
+          </NavLink>
 
-        <NavLink
-          to="/profile"
-          style={({ isActive }) => ({
-            ...styles.navButton,
-            background: isActive ? "#6366f1" : "#3b82f6",
-          })}
-        >
-          Profile
-        </NavLink>
+          <NavLink
+            to="/profile"
+            style={({ isActive }) => ({
+              ...styles.navButton,
+              background: isActive ? "#6366f1" : "#3b82f6",
+            })}
+          >
+            Profile
+          </NavLink>
 
-        <NavLink
-          to="/history"
-          style={({ isActive }) => ({
-            ...styles.navButton,
-            background: isActive ? "#6366f1" : "#3b82f6",
-          })}
-        >
-          History
-        </NavLink>
+          <NavLink
+            to="/history"
+            style={({ isActive }) => ({
+              ...styles.navButton,
+              background: isActive ? "#6366f1" : "#3b82f6",
+            })}
+          >
+            History
+          </NavLink>
 
-        <button onClick={handleLogout} style={styles.logoutButton}>
-          Logout
-        </button>
+          <button onClick={handleLogout} style={styles.logoutButton}>
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -79,45 +79,58 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "15px 20px",
+    padding: "12px 16px",
     background: "rgba(255,255,255,0.05)",
     backdropFilter: "blur(10px)",
     borderRadius: "12px",
     marginBottom: "20px",
+    flexWrap: "wrap", // 🔥 IMPORTANT FOR MOBILE
+    gap: "10px",
   },
 
   logo: {
     margin: 0,
-    cursor: "pointer", // 👈 clickable
+    cursor: "pointer",
+    fontSize: "18px",
   },
 
   right: {
     display: "flex",
     alignItems: "center",
+    gap: "10px",
     flexWrap: "wrap",
-    gap: "12px",
   },
 
   username: {
     fontWeight: "bold",
+    fontSize: "14px",
+  },
+
+  buttonGroup: {
+    display: "flex",
+    gap: "8px",
+    flexWrap: "wrap", // 🔥 FIX WRAPPING ISSUE
   },
 
   navButton: {
-    padding: "6px 12px",
+    padding: "6px 10px",
     border: "none",
-    borderRadius: "5px",
+    borderRadius: "8px",
     color: "white",
     cursor: "pointer",
     textDecoration: "none",
+    fontSize: "13px",
+    whiteSpace: "nowrap",
   },
 
   logoutButton: {
-    padding: "6px 12px",
+    padding: "6px 10px",
     background: "#ef4444",
     border: "none",
-    borderRadius: "5px",
+    borderRadius: "8px",
     color: "white",
     cursor: "pointer",
+    fontSize: "13px",
   },
 };
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Upload from "../components/Upload";
 import ChatBox from "../components/ChatBox";
 import TypingText from "../components/TypingText";
@@ -18,7 +18,7 @@ function Home() {
     try {
       setLoading(true);
       setError("");
-      setResult(null); // 🔥 ADD THIS BEFORE API CALL
+      setResult(null);
 
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/ai/upload`, {
         method: "POST",
@@ -45,53 +45,57 @@ function Home() {
     }
   };
 
+  // 🔥 PROGRESS BAR ANIMATION
+  useEffect(() => {
+    const bars = document.querySelectorAll(".progress-fill");
+
+    bars.forEach((bar) => {
+      const width = bar.style.width;
+      bar.style.width = "0%";
+
+      setTimeout(() => {
+        bar.style.width = width;
+      }, 200);
+    });
+  }, [result]);
+
   return (
     <div className="container">
 
-      <h1 style={{
-        fontSize: "40px",
-        marginBottom: "20px",
-        textAlign: "center",
-        background: "linear-gradient(90deg,#3b82f6,#6366f1)",
-        WebkitBackgroundClip: "text",
-        color: "transparent"
-      }}>
+      <h1 className="main-title">
         AI Career Assistant 🚀
       </h1>
 
-      {/* ❌ ERROR */}
       {error && (
         <p style={{ color: "red", textAlign: "center" }}>{error}</p>
       )}
 
-      {/* ✅ UPLOAD */}
       <Upload
         setFile={setFile}
         handleUpload={handleUpload}
         loading={loading}
       />
 
-      {/* 💤 EMPTY */}
+      {/* 🔥 LOADING SKELETON */}
+      {loading && (
+        <div className="skeleton-container">
+          <div className="skeleton skeleton-title"></div>
+          <div className="skeleton skeleton-card"></div>
+          <div className="skeleton skeleton-card"></div>
+        </div>
+      )}
+
       {!result && !loading && (
-        <p style={{ textAlign: "center", opacity: 0.6, marginTop: "20px" }}>
+        <p className="empty-text">
           Upload your resume to get AI insights 🚀
         </p>
       )}
 
-      {/* ✅ RESULT */}
       {result && (
         <>
-          {/* 🎯 SCORE */}
-          {result?.score !== undefined && (
-            <div style={{
-              textAlign: "center",
-              marginBottom: "20px",
-              fontSize: "24px",
-              fontWeight: "bold"
-            }}>
-              🎯 Resume Score: {result.score}/100
-            </div>
-          )}
+          <div className="score">
+            🎯 Resume Score: {result.score}/100
+          </div>
 
           <div className="card-grid">
 
@@ -125,38 +129,28 @@ function Home() {
 
           </div>
 
-          {/* 🔥 JOB MATCH (NEW FEATURE) */}
+          {/* 🔥 JOB MATCH */}
           {result.jobMatches && (
-            <div style={{ marginTop: "40px" }}>
-              <h2 style={{ textAlign: "center" }}>
-                💼 Job Match Analysis
-              </h2>
+            <div className="job-section">
+              <h2>💼 Job Match Analysis</h2>
 
               {result.jobMatches.map((job, i) => (
-                <div key={i} style={styles.jobCard}>
+                <div key={i} className="job-card">
 
-                  <div style={styles.jobHeader}>
+                  <div className="job-header">
                     <strong>{job.role}</strong>
                     <span>{job.match}%</span>
                   </div>
 
-                  {/* PROGRESS BAR */}
-                  <div style={styles.progressBar}>
+                  {/* 🔥 NEW ANIMATED BAR */}
+                  <div className="progress-bar">
                     <div
-                      style={{
-                        ...styles.progressFill,
-                        width: `${job.match}%`,
-                        background:
-                          job.match > 80
-                            ? "#22c55e"
-                            : job.match > 50
-                            ? "#facc15"
-                            : "#ef4444",
-                      }}
-                    />
+                      className="progress-fill"
+                      style={{ width: `${job.match}%` }}
+                    ></div>
                   </div>
 
-                  <p style={styles.missing}>
+                  <p className="missing">
                     Missing: {job.missing.join(", ")}
                   </p>
 
@@ -165,64 +159,24 @@ function Home() {
             </div>
           )}
 
-          {/* 📄 DOWNLOAD */}
           {result?.resumeFile && (
             <a
               href={`${import.meta.env.VITE_API_URL}/uploads/${result.resumeFile}`}
               target="_blank"
               rel="noreferrer"
             >
-              <button style={{ marginTop: "20px" }}>
-                📄 Download Resume
-              </button>
+              <div className="download-btn">
+                <button>Download Resume</button>
+              </div>
             </a>
           )}
 
-          {/* 💬 CHAT */}
-          <div style={{ marginTop: "40px" }}>
-            <ChatBox />
-          </div>
+          <ChatBox />
         </>
       )}
 
     </div>
   );
 }
-
-/* 🔥 NEW STYLES (NO CLASS CHANGE) */
-const styles = {
-  jobCard: {
-    margin: "15px auto",
-    padding: "15px",
-    background: "#1e293b",
-    borderRadius: "12px",
-    width: "100%",
-    maxWidth: "500px",
-  },
-
-  jobHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "8px",
-  },
-
-  progressBar: {
-    height: "10px",
-    background: "#334155",
-    borderRadius: "5px",
-    overflow: "hidden",
-  },
-
-  progressFill: {
-    height: "100%",
-    borderRadius: "5px",
-  },
-
-  missing: {
-    marginTop: "8px",
-    fontSize: "12px",
-    color: "#cbd5f5",
-  },
-};
 
 export default Home;

@@ -127,7 +127,7 @@ const styles = {
   floatingBtn: {
   position: "fixed",
   bottom: "20px",
-  right: "50px",
+  right: "20px",
   width: "55px",
   height: "55px",
   fontSize: "22px",

@@ -61,9 +61,9 @@ function History() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <button style={{ marginTop: "10px" }}>
-                      📄 Download Resume
-                    </button>
+                    <div className="download-btn">
+  <button>Download Resume</button>
+</div>
                   </a>
                 )}
               </div>
