@@ -1,4 +1,3 @@
-console.log("FILE:", req.file);
 const extractPdfText = require("../utils/extractPdfText");
 const { analyzeText, chatWithAI } = require("../services/aiService");
 const Result = require("../models/Result");
