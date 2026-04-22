@@ -20,7 +20,7 @@ function Home() {
       setError("");
       setResult(null); // 🔥 ADD THIS BEFORE API CALL
 
-      const res = await fetch("http://localhost:5000/api/ai/upload", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/ai/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -168,7 +168,7 @@ function Home() {
           {/* 📄 DOWNLOAD */}
           {result?.resumeFile && (
             <a
-              href={`http://localhost:5000/uploads/${result.resumeFile}`}
+              href={`${import.meta.env.VITE_API_URL}/uploads/${result.resumeFile}`}
               target="_blank"
               rel="noreferrer"
             >

@@ -6,7 +6,8 @@ function History() {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/ai/my-results", {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/ai/my-results`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -56,7 +57,7 @@ function History() {
                 {/* ✅ DOWNLOAD BUTTON */}
                 {item.resumeFile && (
                   <a
-                    href={`http://localhost:5000/uploads/${item.resumeFile}`}
+                    href={`${import.meta.env.VITE_API_URL}/uploads/${item.resumeFile}`}
                     target="_blank"
                     rel="noreferrer"
                   >
