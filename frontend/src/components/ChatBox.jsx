@@ -64,7 +64,7 @@ function ChatBox() {
           {/* HEADER */}
           <div style={styles.header}>
             <span>🤖 AI Assistant</span>
-            <button onClick={() => setIsOpen(false)} style={styles.closeBtn}>
+            <button onClick={() => setIsOpen((prev) => !prev)}>
               ✖
             </button>
           </div>

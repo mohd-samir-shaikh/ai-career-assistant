@@ -33,7 +33,8 @@ function Navbar() {
 
       {/* HAMBURGER BUTTON */}
       <button
-        style={styles.menuBtn}
+  className="menu-btn"
+  style={styles.menuBtn}
         onClick={() => setMenuOpen(!menuOpen)}
       >
         ☰

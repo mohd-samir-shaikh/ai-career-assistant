@@ -303,3 +303,12 @@ button:disabled {
     display: none !important;
   }
 }
+.menu-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menu-btn {
+    display: block;
+  }
+}
