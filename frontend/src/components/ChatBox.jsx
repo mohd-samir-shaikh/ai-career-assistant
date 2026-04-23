@@ -127,23 +127,21 @@ const styles = {
   floatingBtn: {
   position: "fixed",
   bottom: "20px",
-  right: "20px",
+  right: "15px",
   width: "55px",
   height: "55px",
   fontSize: "22px",
   borderRadius: "50%",
-  background: "linear-gradient(135deg,#3b82f6,#6366f1)",
-  color: "white",
-  border: "none",
-  cursor: "pointer",
-  zIndex: 999,
+  zIndex: 9999, // increase
 },
 
   chatContainer: {
   position: "fixed",
   bottom: "90px",
-  right: "10px",
-  width: "calc(100% - 20px)",
+  overflow: "hidden",
+  width: "95%",
+  left: "2.5%", // center align on mobile
+  right: "auto",
   maxWidth: "360px",
   height: "70vh",
   maxHeight: "500px",
@@ -203,7 +201,8 @@ const styles = {
   padding: "10px",
   gap: "8px",
   alignItems: "center",
-  width: "100%", // ✅ ADD THIS
+  width: "100%",
+  background: "#1e293b",
 },
 
   input: {
@@ -213,18 +212,18 @@ const styles = {
   border: "none",
   outline: "none",
   fontSize: "14px",
+  width: "100%",
   minWidth: 0,
-  width: "100%", // ✅ ADD THIS
 },
 
   sendBtn: {
   background: "#3b82f6",
   color: "white",
   border: "none",
-  padding: "10px 14px",
+  padding: "10px 16px",
   borderRadius: "12px",
   cursor: "pointer",
-  whiteSpace: "nowrap",
+  flexShrink: 0, // ✅ IMPORTANT
 },
 };
 
