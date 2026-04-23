@@ -64,7 +64,7 @@ function ChatBox() {
           {/* HEADER */}
           <div style={styles.header}>
             <span>🤖 AI Assistant</span>
-            <button onClick={() => setIsOpen((prev) => !prev)}>
+            <button onClick={() => setIsOpen(false)}>
               ✖
             </button>
           </div>
@@ -143,18 +143,15 @@ const styles = {
   position: "fixed",
   bottom: "90px",
   right: "10px",
-
-  width: "calc(100% - 20px)",  // 🔥 FULL MOBILE FIX
+  width: "calc(100% - 20px)",
   maxWidth: "360px",
-
   height: "70vh",
   maxHeight: "500px",
-
   background: "#1e293b",
   borderRadius: "15px",
   display: "flex",
   flexDirection: "column",
-  zIndex: 999,
+  zIndex: 9999, // ✅ increase
   boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
 },
 
@@ -206,6 +203,7 @@ const styles = {
   padding: "10px",
   gap: "8px",
   alignItems: "center",
+  width: "100%", // ✅ ADD THIS
 },
 
   input: {
@@ -215,7 +213,8 @@ const styles = {
   border: "none",
   outline: "none",
   fontSize: "14px",
-  minWidth: 0, // 🔥 IMPORTANT FIX
+  minWidth: 0,
+  width: "100%", // ✅ ADD THIS
 },
 
   sendBtn: {

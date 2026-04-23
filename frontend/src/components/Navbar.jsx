@@ -42,11 +42,15 @@ function Navbar() {
 
       {/* RIGHT MENU */}
       <div
-        style={{
-          ...styles.right,
-          ...(menuOpen ? styles.mobileMenu : {}),
-        }}
-      >
+  style={{
+    ...styles.right,
+    ...(menuOpen
+      ? styles.mobileMenu
+      : window.innerWidth <= 768
+      ? { display: "none" }
+      : {}),
+  }}
+>
         <span style={styles.username}>
           👤 {user?.name || "User"}
         </span>
@@ -157,17 +161,18 @@ const styles = {
 
   // 🔥 MOBILE DROPDOWN
   mobileMenu: {
-    position: "absolute",
-    top: "60px",
-    right: "10px",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    background: "#1e293b",
-    padding: "15px",
-    borderRadius: "12px",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
-    zIndex: 999,
-  },
+  position: "absolute",
+  top: "60px",
+  right: "10px",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  background: "#1e293b",
+  padding: "15px",
+  borderRadius: "12px",
+  boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+  zIndex: 999,
+  width: "180px", // 👈 ADD THIS
+},
 };
 
 export default Navbar;

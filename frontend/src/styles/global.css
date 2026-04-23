@@ -294,15 +294,6 @@ button:disabled {
   margin-top: 20px;
 }
 
-@media (max-width: 768px) {
-  button[style*="menuBtn"] {
-    display: block !important;
-  }
-
-  div[style*="right"] {
-    display: none !important;
-  }
-}
 .menu-btn {
   display: none;
 }
