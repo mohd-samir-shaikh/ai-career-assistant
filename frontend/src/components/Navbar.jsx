@@ -44,11 +44,12 @@ function Navbar() {
       <div
   style={{
     ...styles.right,
-    ...(menuOpen
-      ? styles.mobileMenu
-      : window.innerWidth <= 768
-      ? { display: "none" }
-      : {}),
+    right: {
+  display: window.innerWidth <= 768 ? "none" : "flex",
+  alignItems: "center",
+  gap: "10px",
+},
+    ...(menuOpen ? styles.mobileMenu : {}),
   }}
 >
         <span style={styles.username}>
@@ -162,6 +163,7 @@ const styles = {
   // 🔥 MOBILE DROPDOWN
   mobileMenu: {
   position: "absolute",
+  display: "flex",
   top: "60px",
   right: "10px",
   flexDirection: "column",
