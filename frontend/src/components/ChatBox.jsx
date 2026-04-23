@@ -137,17 +137,17 @@ const styles = {
 
   chatContainer: {
   position: "fixed",
-  bottom: "80px",
+  bottom: "20px",
   left: "50%",
-  transform: "translateX(-50%)", // 🔥 PERFECT CENTER
+  transform: "translateX(-50%)",
   width: "95%",
   maxWidth: "380px",
-  height: "65vh",
+  height: "60vh",
   background: "#1e293b",
   borderRadius: "15px",
   display: "flex",
   flexDirection: "column",
-  zIndex: 9999,
+  zIndex: 999,
 },
 
   header: {
