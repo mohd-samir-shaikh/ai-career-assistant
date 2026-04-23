@@ -137,20 +137,17 @@ const styles = {
 
   chatContainer: {
   position: "fixed",
-  bottom: "90px",
-  overflow: "hidden",
+  bottom: "80px",
+  left: "50%",
+  transform: "translateX(-50%)", // 🔥 PERFECT CENTER
   width: "95%",
-  left: "2.5%", // center align on mobile
-  right: "auto",
-  maxWidth: "360px",
-  height: "70vh",
-  maxHeight: "500px",
+  maxWidth: "380px",
+  height: "65vh",
   background: "#1e293b",
   borderRadius: "15px",
   display: "flex",
   flexDirection: "column",
-  zIndex: 9999, // ✅ increase
-  boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+  zIndex: 9999,
 },
 
   header: {
@@ -197,33 +194,29 @@ const styles = {
   },
 
   inputArea: {
-  display: "flex",
-  padding: "10px",
+  display: "grid",
+  gridTemplateColumns: "1fr auto", // 🔥 PERFECT FIX
   gap: "8px",
-  alignItems: "center",
-  width: "100%",
+  padding: "10px",
   background: "#1e293b",
 },
 
   input: {
-  flex: 1,
-  padding: "10px 12px",
+  width: "100%",
+  padding: "12px",
   borderRadius: "12px",
   border: "none",
   outline: "none",
-  fontSize: "14px",
-  width: "100%",
-  minWidth: 0,
+  fontSize: "16px", // 🔥 MUST (prevents mobile bug)
 },
 
   sendBtn: {
+  padding: "12px 16px",
+  borderRadius: "12px",
+  border: "none",
   background: "#3b82f6",
   color: "white",
-  border: "none",
-  padding: "10px 16px",
-  borderRadius: "12px",
   cursor: "pointer",
-  flexShrink: 0, // ✅ IMPORTANT
 },
 };
 

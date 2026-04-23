@@ -95,10 +95,9 @@ input {
     width: 100%;
     transition: 0.3s ease;
   }
-
-  input {
-    width: 100%;
-  }
+input, textarea {
+  font-size: 16px !important;
+}
 }
 
 /* Glass Card */
