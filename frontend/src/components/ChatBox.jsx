@@ -8,7 +8,6 @@ function ChatBox() {
 
   const chatEndRef = useRef(null);
 
-  // 🔥 Auto scroll to bottom
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat]);
@@ -195,7 +194,7 @@ const styles = {
 
   inputArea: {
   display: "grid",
-  gridTemplateColumns: "1fr auto", // 🔥 PERFECT FIX
+  gridTemplateColumns: "1fr auto", 
   gap: "8px",
   padding: "10px",
   background: "#1e293b",
@@ -207,7 +206,7 @@ const styles = {
   borderRadius: "12px",
   border: "none",
   outline: "none",
-  fontSize: "16px", // 🔥 MUST (prevents mobile bug)
+  fontSize: "16px", // 
 },
 
   sendBtn: {

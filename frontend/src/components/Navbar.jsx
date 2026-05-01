@@ -160,7 +160,7 @@ const styles = {
     fontSize: "13px",
   },
 
-  // 🔥 MOBILE DROPDOWN
+  
   mobileMenu: {
   position: "absolute",
   display: "flex",
@@ -173,7 +173,7 @@ const styles = {
   borderRadius: "12px",
   boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
   zIndex: 999,
-  width: "180px", // 👈 ADD THIS
+  width: "180px", 
 },
 };
 

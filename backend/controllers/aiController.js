@@ -2,11 +2,11 @@ const extractPdfText = require("../utils/extractPdfText");
 const { analyzeText, chatWithAI } = require("../services/aiService");
 const Result = require("../models/Result");
 
-// ================= JOB MATCH FUNCTION =================
+
 const calculateJobMatches = (skills = []) => {
   const roles = [
-    {
-      name: "Frontend Developer",
+    {                                                                       
+      name: "Frontend Developer",                                                             // job match function
       required: ["HTML", "CSS", "JavaScript", "React", "Bootstrap"],
     },
     {
@@ -22,9 +22,9 @@ const calculateJobMatches = (skills = []) => {
   return roles.map((role) => {
     const userSkills = skills.map((s) => s.toLowerCase());
 
-    // 🔥 SMART MATCH
+    
     const matched = role.required.filter((skill) =>
-      userSkills.some((userSkill) =>
+      userSkills.some((userSkill) =>                                        // smart match
         userSkill.includes(skill.toLowerCase())
       )
     );
@@ -37,10 +37,10 @@ const calculateJobMatches = (skills = []) => {
       role: role.name,
       match: percent,
 
-      // 🔥 SMART MISSING
+    
       missing: role.required.filter(
         (skill) =>
-          !userSkills.some((userSkill) =>
+          !userSkills.some((userSkill) =>                           // smart missing
             userSkill.includes(skill.toLowerCase())
           )
       ),
@@ -48,38 +48,38 @@ const calculateJobMatches = (skills = []) => {
   });
 };
 
-// ================= UPLOAD & ANALYZE =================
+
 const uploadResume = async (req, res) => {
   try {
     console.log("FILE RECEIVED:", req.file);
-
+                                                                  //upload analysis
     if (!req.file) {
       return res.status(400).json({
         message: "No file uploaded ❌",
       });
     }
 
-    // ✅ SAFE FILE PATH
+  
     const filePath = req.file.path || `uploads/${req.file.filename}`;
-
+                                                                                    //safe file path
     let text = "";
 
-    // ✅ SAFE PDF EXTRACTION (THIS FIXES YOUR CRASH)
+    
     try {
       text = await extractPdfText(filePath);
-    } catch (err) {
+    } catch (err) {                                                     //safe pdf extraction
       console.error("PDF ERROR:", err);
       return res.status(500).json({
         message: "Error reading PDF ❌",
       });
     }
 
-    // ✅ AI ANALYSIS
-    const aiResult = await analyzeText(text);
+    
+    const aiResult = await analyzeText(text);                             //ai analysis
 
-    // ================= SCORE =================
+    
     const totalSkills = aiResult.skills.length;
-    const missing = aiResult.missingSkills.length;
+    const missing = aiResult.missingSkills.length;                                        //score
     const suggestions = aiResult.suggestions.length;
 
     let score = 100;
@@ -90,14 +90,14 @@ const uploadResume = async (req, res) => {
     if (score > 100) score = 100;
     if (score < 0) score = 0;
 
-    // ================= JOB MATCH =================
-    const jobMatches = calculateJobMatches(aiResult.skills);
+    
+    const jobMatches = calculateJobMatches(aiResult.skills);                    //job matches
 
-    // ✅ SAVE
+    
     const savedResult = await Result.create({
       user: req.user.id,
       score,
-      skills: aiResult.skills || [],
+      skills: aiResult.skills || [],                                        //safe data
       missingSkills: aiResult.missingSkills || [],
       suggestions: aiResult.suggestions || [],
       careerRoles: aiResult.careerRoles || [],
@@ -106,23 +106,23 @@ const uploadResume = async (req, res) => {
     });
 
     res.json({
-      message: "Resume analyzed & saved ✅",
+      message: "Resume analyzed & saved successfully ",
       result: savedResult,
     });
 
   } catch (error) {
     console.error("UPLOAD ERROR:", error);
     res.status(500).json({
-      message: "Upload failed ❌",
+      message: "Upload failed ",
       error: error.message,
     });
   }
 };
 
-// ================= CHAT WITH RESUME =================
+
 const chatWithResume = async (req, res) => {
   try {
-    const { message } = req.body;
+    const { message } = req.body;                                   //chat with resume
 
     const latest = await Result.findOne({ user: req.user.id })
       .sort({ createdAt: -1 });
@@ -159,10 +159,10 @@ Instructions:
   }
 };
 
-// ================= GET USER RESULTS =================
+
 const getMyResults = async (req, res) => {
   try {
-    const results = await Result.find({ user: req.user.id })
+    const results = await Result.find({ user: req.user.id })          //get all results for user
       .sort({ createdAt: -1 });
 
     res.json(results);
@@ -176,9 +176,9 @@ const getMyResults = async (req, res) => {
   }
 };
 
-// ================= EXPORT =================
+
 module.exports = {
   uploadResume,
-  chatWithResume,
+  chatWithResume,                                           // export functions
   getMyResults,
 };

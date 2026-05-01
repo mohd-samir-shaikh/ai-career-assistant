@@ -27,19 +27,19 @@ function Login() {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.message || "Login failed ❌");
+        toast.error(data.message || "Login failed ");
         return;
       }
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      toast.success("Welcome back 🚀");
+      toast.success("Welcome back ");
 
       navigate("/");
     } catch (err) {
       console.error(err);
-      toast.error("Server error ❌");
+      toast.error("Server error ");
     } finally {
       setLoading(false);
     }

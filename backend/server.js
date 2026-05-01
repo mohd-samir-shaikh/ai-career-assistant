@@ -3,7 +3,7 @@ const fs = require("fs");
 if (!fs.existsSync("uploads")) {
   fs.mkdirSync("uploads");
 }
-console.log("SERVER FILE IS RUNNING 🚀");
+console.log("SERVER FILE IS RUNNING ");
 require("dotenv").config();
 
 const express = require("express");
@@ -15,41 +15,41 @@ const aiRoutes = require("./routes/aiRoutes");
 
 const app = express();
 
-// ✅ CONNECT DATABASE
-connectDB();
 
-// ✅ CORS (FIXED - WORKS FOR LOCAL + LIVE)
-app.use(cors({
+connectDB();                                                //connect to database
+
+
+app.use(cors({                                                // CORS
   origin: "*",
 }));
 
-// ✅ HANDLE PREFLIGHT REQUESTS
-app.options(/.*/, cors());
 
-// ✅ MIDDLEWARE
-app.use(express.json());
+app.options(/.*/, cors());                                    // CORS preflight
 
-// ✅ ROUTES
-app.use("/api/auth", authRoutes);
+
+app.use(express.json());                                         // JSON parsing                              
+
+
+app.use("/api/auth", authRoutes);                                       // Auth routes
 app.use("/api/ai", aiRoutes);
 app.use("/uploads", express.static("uploads"));
 
-// ✅ TEST ROUTE
-app.get("/check", (req, res) => {
+
+app.get("/check", (req, res) => {                                       // CHECK test route
   res.send("CHECK OK");
 });
 
-// ✅ ROOT ROUTE
-app.get("/", (req, res) => {
+
+app.get("/", (req, res) => {                                                              // Root route
   res.send("AI Career Assistant API Running...");
 });
 
-// ✅ DEBUG ENV
-console.log("MONGO:", process.env.MONGO_URI ? "OK" : "MISSING");
+
+console.log("MONGO:", process.env.MONGO_URI ? "OK" : "MISSING");                          // Check MongoDB URI
 console.log("JWT:", process.env.JWT_SECRET ? "OK" : "MISSING");
 
-// ✅ START SERVER
-const PORT = process.env.PORT || 5000;
+
+const PORT = process.env.PORT || 5000;                                                      // Start server
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

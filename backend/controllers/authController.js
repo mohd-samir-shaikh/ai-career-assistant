@@ -2,10 +2,10 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
 
-// ================= REGISTER =================
+
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.body;                           //register user
 
     const userExists = await User.findOne({ email });
 
@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
     });
 
     res.status(201).json({
-      token: generateToken(user._id), // ✅ token here
+      token: generateToken(user._id),                                         //token here
       user: {
         _id: user._id,
         name: user.name,
@@ -35,8 +35,8 @@ const registerUser = async (req, res) => {
   }
 };
 
-// ================= LOGIN =================
-const loginUser = async (req, res) => {
+
+const loginUser = async (req, res) => {                                             //login user
   try {
     const { email, password } = req.body;
 
@@ -52,13 +52,13 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    // ✅ GENERATE TOKEN (THIS WAS MISSING)
-    const token = generateToken(user._id);
+  
+    const token = generateToken(user._id);                            //token here
 
-    // ✅ SEND RESPONSE
+    
     res.json({
       token,
-      user: {
+      user: {                                                       //user data
         _id: user._id,
         name: user.name,
         email: user.email,

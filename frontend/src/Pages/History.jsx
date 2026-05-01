@@ -28,7 +28,7 @@ function History() {
     <>
 
       <div className="container">
-        <h1 style={{ textAlign: "center" }}>📄 Resume History</h1>
+        <h1 style={{ textAlign: "center" }}>Resume History</h1>
 
         {results.length === 0 ? (
           <p style={{ textAlign: "center" }}>
@@ -54,7 +54,7 @@ function History() {
 
                 <p>Skills: {item.skills?.length}</p>
 
-                {/* ✅ DOWNLOAD BUTTON */}
+                {/* DOWNLOAD BUTTON */}
                 {item.resumeFile && (
                   <a
                     href={`${import.meta.env.VITE_API_URL}/uploads/${item.resumeFile}`}

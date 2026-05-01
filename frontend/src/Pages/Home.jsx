@@ -45,9 +45,9 @@ function Home() {
     }
   };
 
-  // 🔥 PROGRESS BAR ANIMATION
+
   useEffect(() => {
-    const bars = document.querySelectorAll(".progress-fill");
+    const bars = document.querySelectorAll(".progress-fill");                 //progress bar animation
 
     bars.forEach((bar) => {
       const width = bar.style.width;
@@ -76,7 +76,7 @@ function Home() {
         loading={loading}
       />
 
-      {/* 🔥 LOADING SKELETON */}
+      {/* LOADING SKELETON */}
       {loading && (
         <div className="skeleton-container">
           <div className="skeleton skeleton-title"></div>
@@ -94,34 +94,34 @@ function Home() {
       {result && (
         <>
           <div className="score">
-            🎯 Resume Score: {result.score}/100
+          Resume Score: {result.score}/100
           </div>
 
           <div className="card-grid">
 
             <div className="card">
-              <h3>✅ Skills</h3>
+              <h3>Skills</h3>
               {result.skills?.map((s, i) => (
                 <TypingText text={s} key={i} />
               ))}
             </div>
 
             <div className="card">
-              <h3>❌ Missing Skills</h3>
+              <h3>Missing Skills</h3>
               {result.missingSkills?.map((s, i) => (
                 <TypingText text={s} key={i} />
               ))}
             </div>
 
             <div className="card">
-              <h3>💡 Suggestions</h3>
+              <h3>Suggestions</h3>
               {result.suggestions?.map((s, i) => (
                 <TypingText text={s} key={i} />
               ))}
             </div>
 
             <div className="card">
-              <h3>🚀 Career Roles</h3>
+              <h3>Career Roles</h3>
               {result.careerRoles?.map((s, i) => (
                 <TypingText text={s} key={i} />
               ))}
@@ -129,10 +129,10 @@ function Home() {
 
           </div>
 
-          {/* 🔥 JOB MATCH */}
+          {/* JOB MATCH */}
           {result.jobMatches && (
             <div className="job-section">
-              <h2>💼 Job Match Analysis</h2>
+              <h2>Job Match Analysis</h2>
 
               {result.jobMatches.map((job, i) => (
                 <div key={i} className="job-card">
@@ -142,7 +142,7 @@ function Home() {
                     <span>{job.match}%</span>
                   </div>
 
-                  {/* 🔥 NEW ANIMATED BAR */}
+                  {/* NEW ANIMATED BAR */}
                   <div className="progress-bar">
                     <div
                       className="progress-fill"

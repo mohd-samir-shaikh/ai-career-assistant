@@ -2,8 +2,8 @@ const axios = require("axios");
 
 const USE_DUMMY = false;
 
-// ================= RESUME ANALYSIS =================
-const analyzeText = async (text) => {
+
+const analyzeText = async (text) => {                               //analyze resume text
   try {
     if (USE_DUMMY) {
       return {
@@ -76,8 +76,8 @@ try {
     throw error;
   }
 };
-// ================= CHAT AI =================
-const chatWithAI = async (prompt) => {
+
+const chatWithAI = async (prompt) => {                                          //chat with ai
   try {
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
@@ -98,8 +98,8 @@ const chatWithAI = async (prompt) => {
       }
     );
 
-    // ✅ ALWAYS return TEXT (NOT JSON)
-    return response.data.choices[0].message.content;
+    
+    return response.data.choices[0].message.content;                      // Return AI response
 
   } catch (error) {
     console.log("CHAT AI ERROR:", error.response?.data || error.message);

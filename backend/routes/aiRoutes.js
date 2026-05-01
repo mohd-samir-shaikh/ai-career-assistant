@@ -11,16 +11,16 @@ const protect = require("../middleware/authMiddleware");
 const { analyzeText } = require("../services/aiService");
 const upload = require("../middleware/uploadMiddleware");
 
-// ================= TEST =================
-router.get("/test", protect, (req, res) => {
+
+router.get("/test", protect, (req, res) => {                    //test
   res.json({
     message: "Protected route working",
     user: req.user,
   });
 });
 
-// ================= ANALYZE TEXT =================
-router.post("/analyze", protect, async (req, res) => {
+
+router.post("/analyze", protect, async (req, res) => {        //analyze text
   try {
     const { text } = req.body;
 
@@ -36,18 +36,18 @@ router.post("/analyze", protect, async (req, res) => {
   }
 });
 
-// ================= UPLOAD =================
-router.post(
+
+router.post(                                      //upload resume
   "/upload",
   protect,
   upload.single("resume"),
   uploadResume
 );
 
-// ================= HISTORY =================
-router.get("/my-results", protect, getMyResults);
 
-// ================= CHAT =================
-router.post("/chat", protect, chatWithResume);
+router.get("/my-results", protect, getMyResults);                               //get my results
+
+
+router.post("/chat", protect, chatWithResume);                      //chat with resume data                 
 
 module.exports = router;

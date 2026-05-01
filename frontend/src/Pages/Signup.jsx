@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 function Signup() {
-  const [name, setName] = useState(""); // ✅ NEW
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function Signup() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          name,      // ✅ REQUIRED
+          name,     
           email,
           password
         })
@@ -28,12 +28,12 @@ function Signup() {
         return;
       }
 
-      toast.success("Signup successful 🎉");
+      toast.success("Signup successful ");
 navigate("/login");
 
     } catch (err) {
       console.error(err);
-      toast.error("Signup failed ❌");
+      toast.error("Signup failed ");
     }
   };
 
